@@ -1,0 +1,42 @@
+{% extends "base.html" %} 
+
+
+{% block navbar %}
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="{{ url_for('my_books') }}">My Books</a>
+            <a class="nav-link" href="{{ url_for('sections') }}">Sections</a>
+            <a class="nav-link" href="{{ url_for('search_result') }}">Search</a>
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+      <h2 class="mb-3">Books</h2>
+      {% if books|length == 0 %}
+        <div class="container">
+          <p>No books found in this section</p>
+        </div>
+
+      {% else %}
+        {% for book in books %}
+          <div class="container mt-5">
+            <div class="card mt-4">
+              <div class="card-body">
+                <h5 class="card-title">{{ book.name }}</h5>
+                <p class="card-text">{{ book.description }}</p>
+                <center>
+                  <a href="{{url_for('request_book',book_id=book.book_id)}}" class="btn btn-primary">Request Book</a>
+                </center>
+              </div>
+            </div>
+          </div>
+        {% endfor%}
+      {% endif %}
+
+      <a href="{{ url_for('home') }}">Go back</a>
+  </div>
+{% endblock %}

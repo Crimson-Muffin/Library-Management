@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block navbar %}
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="{{ url_for('admin_books') }}">Books</a>
+            <a class="nav-link" href="{{ url_for('admin_requests') }}">Requests</a>
+            <a class="nav-link" href="{{ url_for('admin_statistics') }}">Statistics</a>
+            <a class="nav-link" href="{{ url_for('admin_search') }}">Search</a>
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h2 class="mb-3">Books</h2>
+    {% if not books %}
+        <p>No books found.</p>
+        <p>Would you like to add a book? <a href="{{ url_for('new_book') }}">Click here</a></p>
+    {% else %}
+        {% for item in books %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item['book'].name }}</h5>
+                    <p class="card-text">{{ item['book'].description }}</p>
+                    <p class="card-text"><small class="text-muted">{{ item['book'].author }}</small></p>
+                    <p class="card-text">Average Rating: {% if item['avg_rating'] %}{{ '%.1f' % item['avg_rating'] }}{% else %}Not rated yet{% endif %}</p>
+                    <ul class="list-unstyled">
+                        {% if item['feedback_list']=="" %}
+                            <em>No feedback available.</em>
+                        {% else %}
+                            <p>Feedbacks from users are: </p>
+                            {% for feedback in item['feedback_list'] %}
+                                {% if feedback == "" %}
+                                    <li>No feedback available.</li>
+                                {% else %}
+                                <li>{{ feedback }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+
+                    <a href="{{ url_for('book_detail', book_id=item['book'].book_id) }}" class="btn btn-primary">View Book</a>
+                    <a href="{{ url_for('update_book', book_id=item['book'].book_id) }}" class="btn btn-primary">Update Book</a>
+                    <a href="{{ url_for('delete_book', book_id=item['book'].book_id) }}" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="container">
+            <a href="{{ url_for('new_book') }}" class="btn btn-primary">Add Book</a>
+            <a href="{{ url_for('admin') }}" class="btn btn-primary">Back</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

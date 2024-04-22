@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block navbar %}
+  <!-- url redirect for admin login -->
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+        <a class="nav-link" href="{{ url_for('admin_login') }}">Admin Login</a>
+    </div>
+</div>
+{% endblock %}
+{% block content %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="text-center">
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <h1>Welcome</h1>
+          <p>Please login or sign up</p>
+        </div>
+        <div class="text-center mt-4">
+          <br>
+          <a href="{{url_for('login')}}" class="btn btn-primary btn-lg mr-3">Login</a>
+          <a href="{{url_for('register')}}" class="btn btn-secondary btn-lg">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

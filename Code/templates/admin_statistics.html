@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="{{ url_for('admin_books') }}">Books</a>
+            <a class="nav-link" href="{{ url_for('admin_requests') }}">Requests</a>
+            <a class="nav-link" href="{{ url_for('admin_statistics') }}">Statistics</a>
+            <a class="nav-link" href="{{ url_for('admin_search') }}">Search</a>
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div>
+            <br>
+            <h3>Welcome to the admin dashboard.</h3>
+            <br>
+            <h4>Statistics</h4>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Books</h5>
+                            <p class="card-text">{{ total_books }}</p>
+                            <a href="{{ url_for('admin_books') }}" class="btn btn-primary">View Books</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Sections</h5>
+                            <p class="card-text">{{ total_sections }}</p>
+                            <a href="{{ url_for('admin') }}" class="btn btn-primary">View Sections</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Requests</h5>
+                            <p class="card-text">{{ total_requests }}</p>
+                            <a href="{{ url_for('admin_requests') }}" class="btn btn-primary">View Requests</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Issued Books</h5>
+                            <p class="card-text">{{ total_issued_books }}</p>
+                            <a href="{{url_for('admin_requests')}}" class="btn btn-primary">View Issued Books</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Users</h5>
+                            <p class="card-text">{{ total_users }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="container">
+            {% if rated_books|length != 0 %}
+                
+                <div class="container mt-5">
+                    <h4>Bar Chart: Average Ratings for Books</h4>
+                    <img src="../static/images/average_ratings_chart.png" alt="Average Ratings Chart" class="img-fluid">
+                </div>
+
+            {% else %}
+                <p>No books have been rated yet.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

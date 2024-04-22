@@ -1,0 +1,50 @@
+{% extends "base.html" %} 
+{% block navbar %}
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="{{ url_for('admin_books') }}">Books</a>
+            <a class="nav-link" href="{{url_for('admin_requests')}}">Requests</a>
+            <a class="nav-link" href="{{url_for('admin_statistics')}}">Statistics</a>
+            <a class="nav-link" href="{{ url_for('admin_search') }}">Search</a>
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div>
+            <br>
+            <h3>Sections</h3>
+            <br>
+            {% if sections|length == 0 %}
+                <h4>No sections found</h4>
+                <p>Would you like to add a section</p>
+                <!-- Creating a button to add a section -->
+                <a href="{{ url_for('new_section') }}" class="btn btn-primary">Add Section</a>
+            {% else %}
+                <div class="row">
+                    {% for section in sections %}
+                        <div class="col-md-4">
+                            <div class="card mt-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ section.name }}</h5>
+                                    <p class="card-text">{{ section.description }}</p>
+                                    <a href="{{ url_for('delete_section', section_id = section.section_id) }}" class="btn btn-danger">Delete</a>
+                                    <a href="{{ url_for('update_section', section_id = section.section_id) }}" class="btn btn-primary">Edit</a>
+                                    <a href="{{ url_for('section_books', section_id = section.section_id) }}" class="btn btn-primary">View Books</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <div>
+                    <br>
+                    <h3>Add more Sections</h3>
+                    <!-- Creating a button to add a section -->
+                    <a href="{{ url_for('new_section') }}" class="btn btn-primary">Add Section</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

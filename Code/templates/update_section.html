@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block navbar %}
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="{{ url_for('admin_books') }}">Books</a>
+            <a class="nav-link" href="{{ url_for('admin_requests') }}">Requests</a>
+            <a class="nav-link" href="{{ url_for('admin_statistics') }}">Statistics</a>
+            <a class="nav-link" href="{{ url_for('admin_search') }}">Search</a>
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <form method="POST" action="{{ url_for('update_section', section_id=section.section_id) }}">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-2">Update Section</legend>
+                <div class="form-group">
+                    {{ form.section_name.label(class="form-control-label") }}
+                    {% if form.section_name.errors %}
+                        {{ form.section_name(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.section_name.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.section_name(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.description.label(class="form-control-label") }}
+                    {% if form.description.errors %}
+                        {{ form.description(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.description.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.description(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <br>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+{% endblock %}

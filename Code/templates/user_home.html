@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="{{ url_for('my_books') }}">My Books</a>
+            <a class="nav-link" href="{{ url_for('sections') }}">Sections</a>
+            <a class="nav-link" href="{{ url_for('search_result') }}">Search</a>
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+{% if books|length == 0 %}
+      <p>No books found.</p>
+    {% else %}
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="text-center">
+            <h1>Books</h1>
+          </div>
+        </div>
+      </div>
+    {% for book in books %}
+      <div class="card mt-4">
+        <div class="card-body">
+          <h5 class="card-title">{{ book.name }}</h5>
+          <p class="card-text">Author: {{ book.author }}</p>
+          <p class="card-text">{{ book.description }}</p>
+          <center>
+            <a href="{{url_for('request_book',book_id=book.book_id)}}" class="btn btn-primary">Request Book</a>
+            <!-- Rating books -->
+            <a href="{{url_for('rate_book',book_id=book.book_id)}}" class="btn btn-primary">Rate Book</a>
+          </center>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+
+{% endif %}
+{% endblock %}

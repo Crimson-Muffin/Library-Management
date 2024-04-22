@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="{{ url_for('my_books') }}">My Books</a>
+            <a class="nav-link" href="{{ url_for('sections') }}">Sections</a>
+            <a class="nav-link" href="{{ url_for('search_result') }}">Search</a>
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form action="{{ url_for('request_book',book_id=book.book_id) }}" method="post">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Request Book</legend>
+                <div class="form-group">
+                    {{ form.return_date.label(class="form-control-label") }}
+                    {% if form.return_date.errors %}
+                        {{ form.return_date(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.return_date.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.return_date(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <br>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+
+
+
+{% endblock %}

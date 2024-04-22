@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="{{ url_for('admin_books') }}">Books</a>
+            <a class="nav-link" href="{{ url_for('admin_requests') }}">Requests</a>
+            <a class="nav-link" href="{{ url_for('admin_statistics') }}">Statistics</a>
+            <a class="nav-link" href="{{ url_for('admin_search') }}">Search</a>
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <br>
+    <br>
+    <div class="container">
+        <h2 class="mb-3">Books</h2>
+        {% if books|length == 0 %}
+            <p>No books found.</p>
+            <h3>Would you like to add a book? <a href="{{ url_for('new_book') }}">Click here</a></h3>
+        {% else %}
+            {% for book_info in books %}
+                {% set book = book_info['book'] %}
+                {% set avg_rating = book_info['avg_rating'] %}
+                {% set feedback_list = book_info['feedback_list'] %}
+                <div class="container">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ book.name }}</h5>
+                                    <p class="card-text">{{ book.description }}</p>
+                                    <p class="card-text"><small class="text-muted">{{ book.author }}</small></p>
+                                    <p class="card-text">Average Rating: {% if avg_rating %}{{ '%.1f' % avg_rating }}{% else %}N/A{% endif %}</p>
+                                    <p class="card-text">Feedback:
+                                        {% if feedback_list %}
+                                            <ul>
+                                                {% for feedback in feedback_list %}
+                                                    {% if feedback == "" %}
+                                                        <li>No feedback available.</li>
+                                                    {% else %}
+                                                    <li>{{ feedback }}</li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            <em>No feedback available.</em>
+                                        {% endif %}
+                                    </p>
+                                    <a href="{{ url_for('book_detail', book_id=book.book_id) }}" class="btn btn-primary">View</a>
+                                    <a href="{{ url_for('update_book', book_id=book.book_id) }}" class="btn btn-primary">Update Book</a>
+                                    <a href="{{ url_for('delete_book', book_id=book.book_id) }}" class="btn btn-danger">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <h3>Would you like to add a book? <a href="{{ url_for('new_book') }}">Click here</a></h3>
+        {% endif %}
+    </div>
+{% endblock %}

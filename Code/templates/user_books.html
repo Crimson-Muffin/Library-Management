@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="{{ url_for('my_books') }}">My Books</a>
+            <a class="nav-link" href="{{ url_for('sections') }}">Sections</a>
+            <a class="nav-link" href="{{ url_for('search_result') }}">Search</a>
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <h2 class="mb-3">Books</h2>
+        {% if books|length == 0 %}
+            <p>You haven't been assigned any books.</p>
+            <!-- Request a book -->
+            <a href="{{ url_for('home')}}">Request a book</a>
+        {% else %}
+            {% for request,book in books %}
+                <div class="container">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ book.name }}</h5>
+                                    <p class="card-text">Description: {{ book.description }}</p>
+                                    <p class="card-text"><small class="text-muted">Author: {{ book.author }}</small></p>
+                                    <p class="card-text">Return Date:{{ request.return_date }}</p>
+                                    <a href="{{ url_for('book_detail',book_id=book.book_id)}}" class="btn btn-primary"> View Book</a>
+                                    <a href="{{ url_for('return_book',book_id=book.book_id)}}" class="btn btn-danger"> Return Book</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+
+    <div class="container">
+        <h2>Pending Requests</h2>
+        {% if book_requests|length == 0 %}
+            <p>No requests found.</p>
+        {% else %}
+            {% for request,book in book_requests %}
+                <div class="container">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ book.name }}</h5>
+                                    <p class="card-text">Return date: {{ request.return_date }}</p>
+                                    <!-- Cancel request -->
+                                    <a href="{{ url_for('cancel_request',book_id=request.book_id)}}" class="btn btn-danger"> Cancel Request</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}                 
+    </div>
+
+
+    <div class="container">
+        <a href="{{ url_for('home')}}">Go home</a>
+    </div>
+
+{% endblock %}

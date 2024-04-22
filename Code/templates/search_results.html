@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="{{ url_for('my_books') }}">My Books</a>
+            <a class="nav-link" href="{{ url_for('sections') }}">Sections</a>
+            <a class="nav-link" href="{{ url_for('search_result') }}">Search</a>
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h2>Search Results for "{{ query }}"</h2>
+    <br>
+    <div class="container">
+        <h2>Books</h2>
+        {% if books|length == 0 %}
+            <p>No books found.</p>
+        {% else %}
+            {% for book in books %}
+                <div class="container">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ book.name }}</h5>
+                                    <p class="card-text">Description: {{ book.description }}</p>
+                                    <p class="card-text"><small class="text-muted">Author: {{ book.author }}</small></p>
+                                    <a href="{{ url_for('book_detail',book_id=book.book_id)}}" class="btn btn-primary"> View Book</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <br>
+    <div class="container">
+        <h2>Sections</h2>
+        {% if sections|length == 0 %}
+            <p>No sections found.</p>
+        {% else %}
+            {% for section in sections %}
+                <div class="container">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ section.name }}</h5>
+                                    <p class="card-text">Description: {{ section.description }}</p>
+                                    <a href="{{ url_for('section',section_id=section.section_id)}}" class="btn btn-primary"> View Section</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="container">
+        <a href="{{ url_for('home')}}">Home</a>
+    </div>
+
+    
+{% endblock %}

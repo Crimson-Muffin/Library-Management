@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block navbar %}
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-link" href="{{ url_for('admin_books') }}">Books</a>
+            <a class="nav-link" href="{{url_for('admin_requests')}}">Requests</a>
+            <a class="nav-link" href="{{url_for('admin_statistics')}}">Statistics</a>
+            <a class="nav-link" href="{{ url_for('admin_search') }}">Search</a>
+            <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <h2>Search</h2>
+    <br>
+    <form action="{{url_for('admin_search')}}" method="post">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.query.label(class="form-control-label") }}
+            {% if form.query.errors %}
+                {{ form.query(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.query.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.query(class="form-control form-control-lg") }}
+            {% endif %}
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Search</button>
+
+    </form>
+{% endblock %}
