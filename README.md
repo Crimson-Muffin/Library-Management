@@ -1,6 +1,4 @@
-# Mad - I Project
-
-Library Management System
+# Library Management System
 
 Change the directory to the Code folder and install the required packages present in the
 requirements.txt file using the command
